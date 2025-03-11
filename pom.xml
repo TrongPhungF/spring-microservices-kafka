@@ -17,6 +17,7 @@
 
     <modules>
         <module>twitter-to-kafka-service</module>
+        <module>app-config-data</module>
     </modules>
 
 
@@ -30,6 +31,12 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+				<groupId>com.microservices.demo</groupId>
+				<artifactId>app-config-data</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
