@@ -1,4 +1,4 @@
-package com.microservices.demo.twitter.to.kafka.service.config.exception;
+package com.microservices.demo.twitter.to.kafka.service.exception;
 
 /**
  * <p>
