@@ -10,3 +10,10 @@ spring:
           password: ${CONFIG_SERVER_PASSWORD}
           clone-on-start: true
     fail-fast: true
+  security:
+    user:
+      username: ###
+      password: ###
+
+encrypt:
+  key: ###
