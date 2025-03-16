@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/TrongPhungF/spring-cloud-config-server-repository
+          user-name: TrongPhungF
+          password: ${CONFIG_SERVER_PASSWORD}
+          clone-on-start: true
+    fail-fast: true
