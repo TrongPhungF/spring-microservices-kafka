@@ -11,7 +11,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers("/encrypt/**")
-                .antMatchers("/decrypt/**");
+                .antMatchers("/decrypt/**")
+                .antMatchers("/actuator/**");
         super.configure(web);
     }
 }
