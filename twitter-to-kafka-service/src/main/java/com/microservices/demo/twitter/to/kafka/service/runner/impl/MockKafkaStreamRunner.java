@@ -20,40 +20,18 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * <p>
- * MockKafkaStreamRunner class
- * </p>
- *
- * @author Phung Huynh
- */
 @Component
 @ConditionalOnProperty(name = "twitter-to-kafka-service.enable-mock-tweets", havingValue = "true")
 public class MockKafkaStreamRunner implements StreamRunner {
 
-    /**
-     * Logger
-     */
     private static final Logger LOG = LoggerFactory.getLogger(MockKafkaStreamRunner.class);
 
-    /**
-     * TwitterToKafkaServiceConfigData
-     */
     private final TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData;
 
-    /**
-     * TwitterKafkaStatusListener
-     */
     private final TwitterKafkaStatusListener twitterKafkaStatusListener;
 
-    /**
-     * Random
-     */
     private static final Random RANDOM = new Random();
 
-    /**
-     * WORDS
-     */
     private static final String[] WORDS = new String[]{
             "Lorem",
             "ipsum",
@@ -103,6 +81,7 @@ public class MockKafkaStreamRunner implements StreamRunner {
         LOG.info("Starting mock filtering twitter streams for keywords {}", Arrays.toString(keywords));
         simulateTwitterStream(keywords, minTweetLength, maxTweetLength, sleepTimeMs);
     }
+
 
     private void simulateTwitterStream(String[] keywords, int minTweetLength, int maxTweetLength, long sleepTimeMs) {
         Executors.newSingleThreadExecutor().submit(() -> {
@@ -161,4 +140,5 @@ public class MockKafkaStreamRunner implements StreamRunner {
         }
         return tweet.toString().trim();
     }
+
 }

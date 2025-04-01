@@ -1,38 +1,38 @@
 package com.microservices.demo.twitter.to.kafka.service.listener;
 
+import com.microservices.demo.config.KafkaConfigData;
+import com.microservices.demo.kafka.avro.model.TwitterAvroModel;
+import com.microservices.demo.kafka.producer.config.service.KafkaProducer;
+import com.microservices.demo.twitter.to.kafka.service.transformer.TwitterStatusToAvroTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import twitter4j.Status;
 import twitter4j.StatusAdapter;
 
-/**
- * <p>
- * Twitter Kafka Status Listener
- * </p>
- *
- * @author Phung Huynh
- */
 @Component
 public class TwitterKafkaStatusListener extends StatusAdapter {
 
-    /**
-     * Logger
-     */
     private static final Logger LOG = LoggerFactory.getLogger(TwitterKafkaStatusListener.class);
 
-    /**
-     * <p>
-     *    This method is called when a tweet is received
-     * </p>
-     * @param status Status
-     *
-     * @author Phung Huynh
-     */
-    @Override
-    public void onStatus(Status status) {
-        LOG.info("Twitter status with text {}", status.getText());
+    private final KafkaConfigData kafkaConfigData;
+
+    private final KafkaProducer<Long, TwitterAvroModel> kafkaProducer;
+
+    private final TwitterStatusToAvroTransformer twitterStatusToAvroTransformer;
+
+    public TwitterKafkaStatusListener(KafkaConfigData configData,
+                                      KafkaProducer<Long, TwitterAvroModel> producer,
+                                      TwitterStatusToAvroTransformer transformer) {
+        this.kafkaConfigData = configData;
+        this.kafkaProducer = producer;
+        this.twitterStatusToAvroTransformer = transformer;
     }
 
+    @Override
+    public void onStatus(Status status) {
+        LOG.info("Received status text {} sending to kafka topic {}", status.getText(), kafkaConfigData.getTopicName());
+        TwitterAvroModel twitterAvroModel = twitterStatusToAvroTransformer.getTwitterAvroModelFromStatus(status);
+        kafkaProducer.send(kafkaConfigData.getTopicName(), twitterAvroModel.getUserId(), twitterAvroModel);
+    }
 }
-
