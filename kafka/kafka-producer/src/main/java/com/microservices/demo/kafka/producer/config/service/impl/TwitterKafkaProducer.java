@@ -1,6 +1,5 @@
 package com.microservices.demo.kafka.producer.config.service.impl;
 
-
 import com.microservices.demo.kafka.avro.model.TwitterAvroModel;
 import com.microservices.demo.kafka.producer.config.service.KafkaProducer;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -29,7 +28,7 @@ public class TwitterKafkaProducer implements KafkaProducer<Long, TwitterAvroMode
     public void send(String topicName, Long key, TwitterAvroModel message) {
         LOG.info("Sending message='{}' to topic='{}'", message, topicName);
         ListenableFuture<SendResult<Long, TwitterAvroModel>> kafkaResultFuture =
-            kafkaTemplate.send(topicName, key, message);
+                kafkaTemplate.send(topicName, key, message);
         addCallback(topicName, message, kafkaResultFuture);
     }
 
@@ -51,13 +50,13 @@ public class TwitterKafkaProducer implements KafkaProducer<Long, TwitterAvroMode
 
             @Override
             public void onSuccess(SendResult<Long, TwitterAvroModel> result) {
-                RecordMetadata metadata = result.getRecordMetadata();
-                LOG.debug("Received new metadata. Topic: {}; Partition {}; Offset {}; Timestamp {}, at time {}",
-                    metadata.topic(),
-                    metadata.partition(),
-                    metadata.offset(),
-                    metadata.timestamp(),
-                    System.nanoTime());
+                    RecordMetadata metadata = result.getRecordMetadata();
+                    LOG.debug("Received new metadata. Topic: {}; Partition {}; Offset {}; Timestamp {}, at time {}",
+                            metadata.topic(),
+                            metadata.partition(),
+                            metadata.offset(),
+                            metadata.timestamp(),
+                            System.nanoTime());
             }
         });
     }
